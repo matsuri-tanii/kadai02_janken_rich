@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>脳トレじゃんけん</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet" />
+  <link rel="stylesheet" href="css/janken.css">
+</head>
+
+<body>
+  <main>
+    <section>
+      <h1>脳トレじゃんけん</h1>
+    </section>
+  
+    <div class="button_box">
+      <div class="start_button_box">
+        <button id="start" class="start_button">スタート</button>
+      </div>
+      <div class="reset_button_box">
+        <button id="reloadPage" class="reset_button">リセット</button>
+      </div>
+    </div>
+
+    <div id="result">
+      <div class="result_comment"><p>コンピューターの出す手と勝敗の指示を見て、</p></div>
+      <div class="result_img"><p>合う手を選ぼう</p></div>
+    </div>
+
+    <div class="janken_box">
+      <div id="pc_hands">
+        <div><p>コンピュータの<br>手は？？</p></div>
+        <div class="pc_result"><img src="images/questionmark.png" alt="クエスチョンマーク" width="150px"></div>
+      </div>
+      <div class="my_hands">
+        <div>
+          <p>あなたの手は…</p>
+        </div>
+        <div id="my_handsbox">
+          <div>
+            <button id="gu_btn" data-value="0"><img src="images/rock.png" alt="グー"></button>
+            <button id="cho_btn" data-value="1"><img src="images/scissors.png" alt="チョキ"></button>
+            <button id="par_btn" data-value="2"><img src="images/paper.png" alt="パー"></button>
+          </div>
+        </div>
+        <div id="result_display"></div>    
+      </div>
+    </div>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+
+    // スタートを押すと始まる旨アラート
+
+    const startcomment = "スタートボタンを押すと始まるよ"
+    alert(startcomment);
+
+    let pchands;
+    let instruction;
+
+    $("#gu_btn").on("click",function(){
+      const input_button = parseInt($(this).data('value'));
+      console.log("自分の出した手：" + input_button );
+      judge(input_button);
+    });
+
+    $("#cho_btn").on("click",function(){
+      const input_button = parseInt($(this).data('value'));
+      console.log("自分の出した手：" + input_button);
+      judge(input_button);
+    });
+
+    $("#par_btn").on("click",function(){
+      const input_button = parseInt($(this).data('value'));
+      console.log("自分の出した手：" + input_button);
+      judge(input_button);
+    });
+
+    // スタートボタンを押したら
+    // randomNumberで０-2までのランダムな数字をコンソールに表示
+    // コンピュータの手
+    // 0→グー
+    // 1→チョキ
+    // 2→パー
+
+    // randomNumber2で０-2までのランダムな数字をコンソールに表示（勝ち、負け、あいこの指示）
+    // 指示 (randomNumber2)
+    // 0→あいこ
+    // 1→勝ち
+    // 2→負け
+
+    $("#start").on("click", function() {
+      // alert("始まるよ");
+
+      const randomNumber = Math.floor(Math.random()*3);
+      const randomNumber2 = Math.floor(Math.random()*3);
+      console.log("PCの手：" + randomNumber);
+      console.log("お題：" + randomNumber2);
+
+      pchands = randomNumber;
+      instruction = randomNumber2;
+
+      if ( pchands === 0 && instruction === 0 ) {
+        // グーとあいこ
+        $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
+        $(".result_comment").text("コンピューターの出す手と");
+        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
+      } else if ( pchands === 0 && instruction === 1 ) {
+        // グーと勝ち
+        $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
+        $(".result_comment").text("コンピューターの出す手に");
+        $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
+      } else if ( pchands === 0 && instruction === 2 ) {
+        // グーと負け
+        $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
+        $(".result_comment").text("コンピューターの出す手に");
+        $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
+      } else if ( pchands === 1 && instruction === 0 ) {
+        // チョキとあいこ
+        $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
+        $(".result_comment").text("コンピューターの出す手と");
+        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
+      } else if ( pchands === 1 && instruction === 1 ) {
+        // チョキと勝ち
+        $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
+        $(".result_comment").text("コンピューターの出す手に");
+        $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
+      } else if ( pchands === 1 && instruction === 2 ) {
+        // チョキと負け
+        $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
+        $(".result_comment").text("コンピューターの出す手に");
+        $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
+      } else if ( pchands === 2 && instruction === 0) {
+        // パーとあいこ
+        $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
+        $(".result_comment").text("コンピューターの出す手と");
+        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
+      } else if ( pchands === 2 && instruction === 1) {
+        // パーと勝ち
+        $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
+        $(".result_comment").text("コンピューターの出す手に");
+        $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
+      } else if ( pchands === 2 && instruction === 2) {
+        // パーと負け
+        $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
+        $(".result_comment").text("コンピューターの出す手に");
+        $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
+      }
+    });
+
+    // ボタンを押したら正解か違うよを表示
+    // グーボタン・チョキボタン・パーボタン３種類で作る
+    function judge(input_button) {
+      if ( instruction === 0 ) {
+        if ( pchands === input_button ) {
+          $("#result_display").text("正解！！！");
+        } else {
+          $("#result_display").text("違うかも…");
+        }
+      } else if ( instruction === 1 ) {
+        if (( pchands === 0 && input_button === 2 ) ||
+          ( pchands === 1 && input_button === 0 ) ||
+          ( pchands === 2 && input_button === 1 )) {
+            $("#result_display").text("正解！！！");
+        } else {
+          $("#result_display").text("違うかも…");
+        }
+      } else if ( instruction === 2 ) {
+        if (( pchands === 0 && input_button === 1 ) ||
+          ( pchands === 1 && input_button === 2 ) ||
+          ( pchands === 2 && input_button === 0 )) {
+            $("#result_display").text("正解！！！");
+        } else {
+          $("#result_display").text("違うかも…");
+        }
+      }
+    }
+    
+    $(document).ready(function() {
+      $('#reloadPage').on('click', function() {
+        location.reload();  // ページを再読み込み
+      });
+    });
+
+
+
+
+    
+
+
+  </script>
+</body>
+
+</html>
