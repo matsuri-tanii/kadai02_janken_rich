@@ -29,6 +29,18 @@
       <div class="result_img"><p>合う手を選ぼう</p></div>
     </div>
 
+    <div class="result_box">
+      <div>
+        <p class="info">
+        正解数: <span id="correct">0</span>
+        間違えた数: <span id="wrong">0</span>
+        </p>
+        <div class="container">
+          <div id="timer">残り時間 00:00:00</div>
+        </div>
+      </div>
+    </div>
+    
     <div class="janken_box">
       <div id="pc_hands">
         <div><p>コンピュータの<br>手は？？</p></div>
@@ -45,7 +57,7 @@
             <button id="par_btn" data-value="2"><img src="images/paper.png" alt="パー"></button>
           </div>
         </div>
-        <div id="result_display"></div>    
+        <div id="result_display"></div>
       </div>
     </div>
   </main>
@@ -55,12 +67,14 @@
 
     // スタートを押すと始まる旨アラート
 
-    const startcomment = "スタートボタンを押すと始まるよ"
-    alert(startcomment);
+    const startComment = "スタートボタンを押すと始まるよ"
+    alert(startComment);
 
-    let pchands;
-    let instruction;
-
+    let pcHands; //グローバル変数を宣言
+    let instruction; //グローバル変数を宣言
+    let correctCount = 0;
+    let wrongCount = 0;
+    
     $("#gu_btn").on("click",function(){
       const input_button = parseInt($(this).data('value'));
       console.log("自分の出した手：" + input_button );
@@ -92,99 +106,141 @@
     // 1→勝ち
     // 2→負け
 
-    $("#start").on("click", function() {
-      // alert("始まるよ");
-
+    function startGame(){
       const randomNumber = Math.floor(Math.random()*3);
       const randomNumber2 = Math.floor(Math.random()*3);
       console.log("PCの手：" + randomNumber);
       console.log("お題：" + randomNumber2);
 
-      pchands = randomNumber;
+      pcHands = randomNumber;
       instruction = randomNumber2;
 
-      if ( pchands === 0 && instruction === 0 ) {
+      if ( pcHands === 0 && instruction === 0 ) {
         // グーとあいこ
         $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
         $(".result_comment").text("コンピューターの出す手と");
         $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
-      } else if ( pchands === 0 && instruction === 1 ) {
+      } else if ( pcHands === 0 && instruction === 1 ) {
         // グーと勝ち
         $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
         $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
-      } else if ( pchands === 0 && instruction === 2 ) {
+      } else if ( pcHands === 0 && instruction === 2 ) {
         // グーと負け
         $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
         $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
-      } else if ( pchands === 1 && instruction === 0 ) {
+      } else if ( pcHands === 1 && instruction === 0 ) {
         // チョキとあいこ
         $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
         $(".result_comment").text("コンピューターの出す手と");
         $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
-      } else if ( pchands === 1 && instruction === 1 ) {
+      } else if ( pcHands === 1 && instruction === 1 ) {
         // チョキと勝ち
         $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
         $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
-      } else if ( pchands === 1 && instruction === 2 ) {
+      } else if ( pcHands === 1 && instruction === 2 ) {
         // チョキと負け
         $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
         $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
-      } else if ( pchands === 2 && instruction === 0) {
+      } else if ( pcHands === 2 && instruction === 0) {
         // パーとあいこ
         $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
         $(".result_comment").text("コンピューターの出す手と");
         $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
-      } else if ( pchands === 2 && instruction === 1) {
+      } else if ( pcHands === 2 && instruction === 1) {
         // パーと勝ち
         $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
         $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
-      } else if ( pchands === 2 && instruction === 2) {
+      } else if ( pcHands === 2 && instruction === 2) {
         // パーと負け
         $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
         $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
       }
+    }
+
+    $("#start").on("click", function() {
+      startGame();
+      countDownTimer();
     });
 
-    // ボタンを押したら正解か違うよを表示
+    // ボタンを押したら正解か違うかもを表示
     // グーボタン・チョキボタン・パーボタン３種類で作る
     function judge(input_button) {
       if ( instruction === 0 ) {
-        if ( pchands === input_button ) {
+        if ( pcHands === input_button ) {
           $("#result_display").text("正解！！！");
+          correctCount = correctCount +1;
+          $("#correct").text(correctCount);
+          startGame();
         } else {
           $("#result_display").text("違うかも…");
+          wrongCount = wrongCount +1;
+          $("#wrong").text(wrongCount);
         }
       } else if ( instruction === 1 ) {
-        if (( pchands === 0 && input_button === 2 ) ||
-          ( pchands === 1 && input_button === 0 ) ||
-          ( pchands === 2 && input_button === 1 )) {
-            $("#result_display").text("正解！！！");
+        if (( pcHands === 0 && input_button === 2 ) ||
+          ( pcHands === 1 && input_button === 0 ) ||
+          ( pcHands === 2 && input_button === 1 )) {
+          $("#result_display").text("正解！！！");
+          correctCount = correctCount +1;
+          $("#correct").text(correctCount);
+          startGame();
         } else {
           $("#result_display").text("違うかも…");
+          wrongCount = wrongCount +1;
+          $("#wrong").text(wrongCount);
         }
       } else if ( instruction === 2 ) {
-        if (( pchands === 0 && input_button === 1 ) ||
-          ( pchands === 1 && input_button === 2 ) ||
-          ( pchands === 2 && input_button === 0 )) {
-            $("#result_display").text("正解！！！");
+        if (( pcHands === 0 && input_button === 1 ) ||
+          ( pcHands === 1 && input_button === 2 ) ||
+          ( pcHands === 2 && input_button === 0 )) {
+          $("#result_display").text("正解！！！");
+          correctCount = correctCount +1;
+          $("#correct").text(correctCount);
+          startGame();
         } else {
           $("#result_display").text("違うかも…");
+          wrongCount = wrongCount +1;
+          $("#wrong").text(wrongCount);
         }
       }
     }
-    
-    $(document).ready(function() {
-      $('#reloadPage').on('click', function() {
-        location.reload();  // ページを再読み込み
-      });
-    });
 
+    function countDownTimer(){
+      const countDown = document.getElementById('timer');
+      const targetTime = new Date().getTime() + 15000;
+
+      function updateCountDown(){
+        const now = new Date().getTime();
+        const distance = targetTime - now;
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / (1000));
+
+        countDown.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        if(distance < 0){
+          clearInterval(interval);
+          countDown.textContent = '終了しました';
+        }
+      }
+
+      const interval = setInterval(updateCountDown, 1000);
+      updateCountDown();
+    }
+    
+    // $(document).ready(function() {
+    //   $('#reloadPage').on('click', function() {
+    //     location.reload();  // ページを再読み込み
+    //   });
+    
+    
 
 
 
