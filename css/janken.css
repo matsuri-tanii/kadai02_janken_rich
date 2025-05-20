@@ -98,6 +98,12 @@ h1 {
   margin: 20px 0;
 }
 
+.result_box {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
 .janken_box {
   display: flex;
   justify-content: space-between;
