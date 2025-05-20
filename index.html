@@ -74,6 +74,8 @@
     let instruction; //グローバル変数を宣言
     let correctCount = 0;
     let wrongCount = 0;
+    let gameActive = false;
+    let interval;
     
     $("#gu_btn").on("click",function(){
       const input_button = parseInt($(this).data('value'));
@@ -164,6 +166,7 @@
     }
 
     $("#start").on("click", function() {
+      gameActive = true;
       startGame();
       countDownTimer();
     });
@@ -171,12 +174,12 @@
     // ボタンを押したら正解か違うかもを表示
     // グーボタン・チョキボタン・パーボタン３種類で作る
     function judge(input_button) {
+      if(!gameActive) return;
       if ( instruction === 0 ) {
         if ( pcHands === input_button ) {
           $("#result_display").text("正解！！！");
           correctCount = correctCount +1;
           $("#correct").text(correctCount);
-          startGame();
         } else {
           $("#result_display").text("違うかも…");
           wrongCount = wrongCount +1;
@@ -189,7 +192,6 @@
           $("#result_display").text("正解！！！");
           correctCount = correctCount +1;
           $("#correct").text(correctCount);
-          startGame();
         } else {
           $("#result_display").text("違うかも…");
           wrongCount = wrongCount +1;
@@ -202,13 +204,16 @@
           $("#result_display").text("正解！！！");
           correctCount = correctCount +1;
           $("#correct").text(correctCount);
-          startGame();
         } else {
           $("#result_display").text("違うかも…");
           wrongCount = wrongCount +1;
           $("#wrong").text(wrongCount);
         }
       }
+
+      setTimeout(function() {
+        startGame();
+        }, 500);
     }
 
     function countDownTimer(){
@@ -228,17 +233,19 @@
         if(distance < 0){
           clearInterval(interval);
           countDown.textContent = '終了しました';
+          gameActive = false;
         }
       }
 
-      const interval = setInterval(updateCountDown, 1000);
+      interval = setInterval(updateCountDown, 1000);
       updateCountDown();
     }
     
-    // $(document).ready(function() {
-    //   $('#reloadPage').on('click', function() {
-    //     location.reload();  // ページを再読み込み
-    //   });
+    $(document).ready(function() {
+      $('#reloadPage').on('click', function() {
+        location.reload();  // ページを再読み込み
+      });
+    })
     
     
 
