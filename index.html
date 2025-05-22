@@ -50,7 +50,7 @@
         <div>
           <p>あなたの手は…</p>
         </div>
-        <div id="my_handsbox">
+        <div id="my_handsBox">
           <div>
             <button id="gu_btn" data-value="0"><img src="images/rock.png" alt="グー"></button>
             <button id="cho_btn" data-value="1"><img src="images/scissors.png" alt="チョキ"></button>
@@ -70,12 +70,16 @@
     const startComment = "スタートボタンを押すと始まるよ"
     alert(startComment);
 
-    let pcHands; //グローバル変数を宣言
-    let instruction; //グローバル変数を宣言
-    let correctCount = 0;
-    let wrongCount = 0;
+    let pcHands; //グローバル変数を宣言(pcの手)
+    let instruction; //グローバル変数を宣言(指示)
+    let correctCount = 0; //正解数
+    let wrongCount = 0; //間違えた数
     let gameActive = false;
     let interval;
+
+    const startMusic = new Audio('./audio/start.mp3')
+    const OKMusic = new Audio('./audio/ok5.mp3')
+    const NGMusic = new Audio('./audio/ng1.mp3')
     
     $("#gu_btn").on("click",function(){
       const input_button = parseInt($(this).data('value'));
@@ -169,6 +173,8 @@
       gameActive = true;
       startGame();
       countDownTimer();
+      startMusic.currentTime = 0;
+      startMusic.play();
     });
 
     // ボタンを押したら正解か違うかもを表示
@@ -178,10 +184,14 @@
       if ( instruction === 0 ) {
         if ( pcHands === input_button ) {
           $("#result_display").text("正解！！！");
-          correctCount = correctCount +1;
+          OKMusic.currentTime = 0;
+          OKMusic.play();
+          correctCount = correctCount++;
           $("#correct").text(correctCount);
         } else {
           $("#result_display").text("違うかも…");
+          NGMusic.currentTime = 0;
+          NGMusic.play();
           wrongCount = wrongCount +1;
           $("#wrong").text(wrongCount);
         }
@@ -190,10 +200,14 @@
           ( pcHands === 1 && input_button === 0 ) ||
           ( pcHands === 2 && input_button === 1 )) {
           $("#result_display").text("正解！！！");
+          OKMusic.currentTime = 0;
+          OKMusic.play();
           correctCount = correctCount +1;
           $("#correct").text(correctCount);
         } else {
           $("#result_display").text("違うかも…");
+          NGMusic.currentTime = 0;
+          NGMusic.play();
           wrongCount = wrongCount +1;
           $("#wrong").text(wrongCount);
         }
@@ -202,10 +216,14 @@
           ( pcHands === 1 && input_button === 2 ) ||
           ( pcHands === 2 && input_button === 0 )) {
           $("#result_display").text("正解！！！");
+          OKMusic.currentTime = 0;
+          OKMusic.play();
           correctCount = correctCount +1;
           $("#correct").text(correctCount);
         } else {
           $("#result_display").text("違うかも…");
+          NGMusic.currentTime = 0;
+          NGMusic.play();
           wrongCount = wrongCount +1;
           $("#wrong").text(wrongCount);
         }
