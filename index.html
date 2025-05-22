@@ -70,17 +70,20 @@
     const startComment = "スタートボタンを押すと始まるよ"
     alert(startComment);
 
-    let pcHands; //グローバル変数を宣言(pcの手)
-    let instruction; //グローバル変数を宣言(指示)
+    //グローバル変数を宣言
+    let pcHands; //pcの手(0:グー, 1:チョキ, 2:パー)
+    let instruction; //お題(0:あいこ, 1:勝ち, 2:負け)
     let correctCount = 0; //正解数
     let wrongCount = 0; //間違えた数
-    let gameActive = false;
+    let gameActive = false; //ゲーム中かどうか（まだ始まってない）
     let interval;
 
-    const startMusic = new Audio('./audio/start.mp3')
-    const OKMusic = new Audio('./audio/ok5.mp3')
-    const NGMusic = new Audio('./audio/ng1.mp3')
+    //効果音
+    const startMusic = new Audio('./audio/start.mp3') //スタート
+    const OKMusic = new Audio('./audio/ok5.mp3') //正解
+    const NGMusic = new Audio('./audio/ng1.mp3') //不正解
     
+    //自分の手のボタンをクリックしたらdata-valueから値を取得してjudge()関数で判定を出す
     $("#gu_btn").on("click",function(){
       const input_button = parseInt($(this).data('value'));
       console.log("自分の出した手：" + input_button );
@@ -107,7 +110,7 @@
     // 2→パー
 
     // randomNumber2で０-2までのランダムな数字をコンソールに表示（勝ち、負け、あいこの指示）
-    // 指示 (randomNumber2)
+    // お題 (randomNumber2)
     // 0→あいこ
     // 1→勝ち
     // 2→負け
@@ -121,78 +124,84 @@
       pcHands = randomNumber;
       instruction = randomNumber2;
 
+      //ランダムに出たPCの手と指示に応じて画像を変更し表示
       if ( pcHands === 0 && instruction === 0 ) {
         // グーとあいこ
-        $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
+        $(".pc_result").html('<img src="images/rock_invert.png" alt="グーの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手と");
-        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
+        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにしての画像" width="100px">');
       } else if ( pcHands === 0 && instruction === 1 ) {
         // グーと勝ち
-        $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
+        $(".pc_result").html('<img src="images/rock_invert.png" alt="グーの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
-        $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
+        $(".result_img").html('<img src="images/win_tore.png" alt="勝っての画像" width="100px">');
       } else if ( pcHands === 0 && instruction === 2 ) {
         // グーと負け
-        $(".pc_result").html('<img src="images/rock_invert.png" alt="PCはグー" width="100px">');
+        $(".pc_result").html('<img src="images/rock_invert.png" alt="グーの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
-        $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
+        $(".result_img").html('<img src="images/lose_tore.png" alt="負けての画像" width="100px">');
       } else if ( pcHands === 1 && instruction === 0 ) {
         // チョキとあいこ
-        $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
+        $(".pc_result").html('<img src="images/scissors_invert.png" alt="チョキの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手と");
-        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
+        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにしての画像" width="100px">');
       } else if ( pcHands === 1 && instruction === 1 ) {
         // チョキと勝ち
-        $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
+        $(".pc_result").html('<img src="images/scissors_invert.png" alt="チョキの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
-        $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
+        $(".result_img").html('<img src="images/win_tore.png" alt="勝っての画像" width="100px">');
       } else if ( pcHands === 1 && instruction === 2 ) {
         // チョキと負け
-        $(".pc_result").html('<img src="images/scissors_invert.png" alt="PCはチョキ" width="100px">');
+        $(".pc_result").html('<img src="images/scissors_invert.png" alt="チョキの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
-        $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
+        $(".result_img").html('<img src="images/lose_tore.png" alt="負けての画像" width="100px">');
       } else if ( pcHands === 2 && instruction === 0) {
         // パーとあいこ
-        $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
+        $(".pc_result").html('<img src="images/paper_invert.png" alt="パーの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手と");
-        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにして" width="100px">');
+        $(".result_img").html('<img src="images/draw_tore.png" alt="あいこにしての画像" width="100px">');
       } else if ( pcHands === 2 && instruction === 1) {
         // パーと勝ち
-        $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
+        $(".pc_result").html('<img src="images/paper_invert.png" alt="パーの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
-        $(".result_img").html('<img src="images/win_tore.png" alt="勝って" width="100px">');
+        $(".result_img").html('<img src="images/win_tore.png" alt="勝っての画像" width="100px">');
       } else if ( pcHands === 2 && instruction === 2) {
         // パーと負け
-        $(".pc_result").html('<img src="images/paper_invert.png" alt="PCはパー" width="100px">');
+        $(".pc_result").html('<img src="images/paper_invert.png" alt="パーの画像" width="100px">');
         $(".result_comment").text("コンピューターの出す手に");
-        $(".result_img").html('<img src="images/lose_tore.png" alt="負けて" width="100px">');
+        $(".result_img").html('<img src="images/lose_tore.png" alt="負けての画像" width="100px">');
       }
     }
 
     $("#start").on("click", function() {
+      if (gameActive) return; //すでにゲーム中なら何もしない（ボタン連打を防ぐ）
       gameActive = true;
-      startGame();
-      countDownTimer();
-      startMusic.currentTime = 0;
-      startMusic.play();
+      correctCount = 0; //リセット
+      wrongCount = 0; //リセット
+      $("#correct").text(correctCount);
+      $("#wrong").text(wrongCount);
+      startGame(); //pcの手とお題を表示
+      countDownTimer(); //タイマーを開始
+      startMusic.currentTime = 0; //効果音の再生位置を0秒からスタートする
+      startMusic.play(); //効果音再生
     });
 
     // ボタンを押したら正解か違うかもを表示
     // グーボタン・チョキボタン・パーボタン３種類で作る
     function judge(input_button) {
-      if(!gameActive) return;
-      if ( instruction === 0 ) {
-        if ( pcHands === input_button ) {
-          $("#result_display").text("正解！！！");
+      if(!gameActive) return;//ゲーム中じゃなかったら何もしない
+      if ( instruction === 0 ) { //指示があいこの時
+        if ( pcHands === input_button ) { //pcの手と自分の手が同じなら
+          $("#result_display").text("正解！！！"); //正解を表示
           OKMusic.currentTime = 0;
           OKMusic.play();
-          correctCount = correctCount++;
+          correctCount++; //正解数を１増やす
           $("#correct").text(correctCount);
         } else {
           $("#result_display").text("違うかも…");
           NGMusic.currentTime = 0;
           NGMusic.play();
-          wrongCount = wrongCount +1;
+          wrongCount++;
           $("#wrong").text(wrongCount);
         }
       } else if ( instruction === 1 ) {
@@ -202,13 +211,13 @@
           $("#result_display").text("正解！！！");
           OKMusic.currentTime = 0;
           OKMusic.play();
-          correctCount = correctCount +1;
+          correctCount++;
           $("#correct").text(correctCount);
         } else {
           $("#result_display").text("違うかも…");
           NGMusic.currentTime = 0;
           NGMusic.play();
-          wrongCount = wrongCount +1;
+          wrongCount++;
           $("#wrong").text(wrongCount);
         }
       } else if ( instruction === 2 ) {
@@ -218,44 +227,57 @@
           $("#result_display").text("正解！！！");
           OKMusic.currentTime = 0;
           OKMusic.play();
-          correctCount = correctCount +1;
+          correctCount++;
           $("#correct").text(correctCount);
         } else {
           $("#result_display").text("違うかも…");
           NGMusic.currentTime = 0;
           NGMusic.play();
-          wrongCount = wrongCount +1;
+          wrongCount++;
           $("#wrong").text(wrongCount);
         }
       }
 
       setTimeout(function() {
         startGame();
-        }, 500);
+        }, 500); //0.5秒後に次のpcの手とお題を表示
     }
 
     function countDownTimer(){
       const countDown = document.getElementById('timer');
-      const targetTime = new Date().getTime() + 15000;
+      const targetTime = new Date().getTime() + 15000; //現在の日付時刻＋15秒後を終了時刻とする
 
-      function updateCountDown(){
-        const now = new Date().getTime();
-        const distance = targetTime - now;
+      clearInterval(interval); //前のタイマーがあればクリア
 
+      function updateCountDown(){ //タイマーの表示（現在時刻との差）を更新
+        const now = new Date().getTime(); //現在時刻
+        const distance = targetTime - now; //残り時間
+
+        //残り時間を時、分、秒に変換(floorで小数点以下切り捨て)
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / (1000));
+        const miliseconds = distance < 0 ? 0 :Math.floor(distance % 1000);
 
-        countDown.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        //タイマーの残り時間をHTMLに表示
+        //padStartで桁が少ない時は頭に０をつけて表示する
+        countDown.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${ String( miliseconds ).padStart( 3, "0" ) }`;
 
-        if(distance < 0){
-          clearInterval(interval);
-          countDown.textContent = '終了しました';
-          gameActive = false;
+        if(distance <= 5000 && distance >0){ //残り時間が5秒以下の時
+          countDown.style.color = 'red'; //文字色を赤に
+        } else {
+          countDown.style.color = '#384B70';
+        }
+
+        if(distance < 0){ //残り時間がマイナスの時
+          clearInterval(interval); //タイマーをクリア
+          countDown.textContent = '終了しました'; //表示を終了しましたに変更
+          countDown.style.color = '#384B70';
+          gameActive = false; //ゲームを無効化（ボタン無反応になる）
         }
       }
 
-      interval = setInterval(updateCountDown, 1000);
+      interval = setInterval(updateCountDown, 1); 
       updateCountDown();
     }
     
