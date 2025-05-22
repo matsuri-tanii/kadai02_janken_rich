@@ -8,7 +8,7 @@ button {
   height: 100px;
   background-color: #97ddff;
   border: none;
-  font-family: YDW bananaslip plus;
+  font-family: YDW bananaSlip plus;
 }
 
 button img {
@@ -21,7 +21,7 @@ main {
   height: 100vh;
   margin: 0 auto;
   color: #384B70;
-  font-family: YDW bananaslip plus;
+  font-family: YDW bananaSlip plus;
 }
 
 section {
@@ -34,6 +34,7 @@ section {
 h1 {
   margin: 0 auto;
   padding: 0 auto;
+  font-size: 40px;
 }
 
 .button_box {
@@ -96,12 +97,14 @@ h1 {
   align-items: center;
   height: 80px;
   margin: 20px 0;
+  font-size: 20px;
 }
 
 .result_box {
   display: flex;
   justify-content: center;
   margin: 20px;
+  font-size: 25px;
 }
 
 .janken_box {
@@ -129,7 +132,7 @@ h1 {
   flex-direction: column;
 }
 
-#my_handsbox {
+#my_handsBox {
   display: flex;
   justify-content: center;
 }
